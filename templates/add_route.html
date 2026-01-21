@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Airport Route | Flight System</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #333;
+            --border: #dee2e6;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background: var(--card);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--accent);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .alert-success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        form {
+            background: var(--bg);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        form p {
+            margin-bottom: 15px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        form input,
+        form select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.1s, background 0.2s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-1px);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border);
+        }
+
+        th {
+            background-color: #f1f3f5;
+            color: var(--primary);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+        }
+
+        tr:hover {
+            background-color: #fafbfc;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="nav">
+            <a href="{% url 'add_route' %}">Add Route</a>
+            <a href="{% url 'find_nth_node' %}">Find Nth Node</a>
+            <a href="{% url 'longest_route' %}">Longest Route</a>
+            <a href="{% url 'shortest_route_between' %}">Shortest Route</a>
+        </nav>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+
+        <h2>Add Airport Route</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Complete Registration</button>
+        </form>
+
+        <h3>Inventory of Routes</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Airport Code</th>
+                    <th>Linked Parent</th>
+                    <th>Relative Position</th>
+                    <th>Duration (min)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for route in routes %}
+                <tr>
+                    <td><strong>{{ route.airport_code }}</strong></td>
+                    <td>{{ route.parent.airport_code|default:"—" }}</td>
+                    <td>{{ route.position|capfirst|default:"—" }}</td>
+                    <td>{{ route.duration }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body>
+
+</html>

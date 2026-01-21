@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursive Node Traversal | Flight System</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #3498db;
+            --bg: #f8f9fa;
+            --card: #ffffff;
+            --text: #333;
+            --border: #dee2e6;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            margin: 0;
+            padding: 40px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 800px;
+            background: var(--card);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav {
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: var(--primary);
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .nav a:hover {
+            color: var(--accent);
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            font-weight: 500;
+        }
+
+        .alert-warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeeba;
+        }
+
+        form {
+            background: var(--bg);
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 40px;
+        }
+
+        form p {
+            margin-bottom: 20px;
+        }
+
+        form label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        form input,
+        form select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1rem;
+        }
+
+        button {
+            background-color: var(--accent);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        .result-card {
+            background: #f0f7ff;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid var(--accent);
+            margin-top: 20px;
+        }
+
+        .result-card h3 {
+            margin-top: 0;
+            color: var(--primary);
+        }
+
+        .data-point {
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <nav class="nav">
+            <a href="{% url 'add_route' %}">Add Route</a>
+            <a href="{% url 'find_nth_node' %}">Find Nth Node</a>
+            <a href="{% url 'longest_route' %}">Longest Route</a>
+            <a href="{% url 'shortest_route_between' %}">Shortest Route</a>
+        </nav>
+
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+        {% endif %}
+
+        <h2>Tree Traversal Inspector</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Execute Search</button>
+        </form>
+
+        {% if result %}
+        <div class="result-card">
+            <h3>Terminal Node Identified</h3>
+            <div class="data-point"><strong>Airport Code:</strong> {{ result.airport_code }}</div>
+            <div class="data-point"><strong>Connection Duration:</strong> {{ result.duration }} minutes</div>
+        </div>
+        {% elif request.method == "POST" %}
+        <div class="alert alert-warning" style="margin-top: 20px;">
+            The requested N-th node does not exist in this direction from the starting airport.
+        </div>
+        {% endif %}
+    </div>
+</body>
+
+</html>
