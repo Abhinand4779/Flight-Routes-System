@@ -3,7 +3,7 @@ from django.contrib import messages
 from .forms import AirportRouteForm, NthNodeSearchForm
 from .models import AirportRoute
 
-# ROUTE 
+# this function for add route 
 
 def add_route(request):
     if request.method=="POST":
@@ -20,7 +20,7 @@ def add_route(request):
     routes=AirportRoute.objects.all().order_by('airport_code')
     return render(request,'add_route.html',{'form': form,'routes':routes})
 
-# Nth NODE 
+# this for  finding the nth node
     
 def find_nth_node(request):
     result=None
@@ -39,7 +39,7 @@ def find_nth_node(request):
 
     return render(request,'find_nth_node.html',{'form': form, 'result': result})
 
-#LONGEST ROUTE
+# this function for LONGEST ROUTE
 
 def longest_route(request):
     result = None
