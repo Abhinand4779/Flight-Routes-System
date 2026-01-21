@@ -36,31 +36,27 @@ This application includes four main features:
 
 Follow these simple steps to get the project running on your local machine:
 
-1.  **Navigate to the project directory**:
-    Open your terminal (Command Prompt or PowerShell) and go to the folder containing `manage.py`.
-    ```bash
-    cd c:\Users\HP\flight_routes_system
-    ```
 
-2.  **Install Django** (if not already installed):
+
+1.  **Install Django** (if not already installed):
     ```bash
     pip install django
     ```
 
-3.  **Apply Database Migrations**:
+2.  **Apply Database Migrations**:
     This sets up the database to store your airport routes.
     ```bash
     python manage.py makemigrations
     python manage.py migrate
     ```
 
-4.  **Run the Server**:
+3.  **Run the Server**:
     Start the web application.
     ```bash
     python manage.py runserver
     ```
 
-5.  **Access the App**:
+4.  **Access the App**:
     Open your web browser and go to the links mentioned in the "Features" section above (e.g., `http://127.0.0.1:8000/add/`).
 
 ## How to Use
